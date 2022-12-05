@@ -6,6 +6,6 @@ Generate tests from application.conf and run them in yardstick.
 
 ## Server(minecraft server)
 ### run_pecosa.sh
-Run pecosa and collect data.
+Run pecosa and collect data, uses pecosa.py.
 ### visualization.ipynb
-A stub visualization script, uses pecosa.py.
+A stub visualization script.
