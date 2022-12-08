@@ -3,7 +3,41 @@ import sys
 import time
 
 import psutil
+import socket
+import mcrcon
 
+import re
+
+rcon_host = "localhost"
+rcon_port = 25575
+rcon_password = "1p2o3i4u"
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.connect((rcon_host, rcon_port))
+
+mcrcon.login(sock, rcon_password)
+
+def process_rcon_message(message: str):
+    result = ''
+    i= 0
+    while i < len(message):
+        if message[i] == '§':
+            i += 2
+        else:
+            result += message[i]
+            i += 1
+    return result
+
+def get_mspt_from_rcon_message(message: str):
+    numbers = re.findall(r'\b\d+\.*\d*\b', message)
+    mspt = numbers[3]
+    return mspt
+
+def get_mspt():
+    response = mcrcon.command(sock, "mspt")
+    cleaned_response = process_rcon_message(response)
+    mspt = get_mspt_from_rcon_message(cleaned_response)   
+    return mspt
 
 def key_or_val(li, key, value, header):
     if header:
@@ -76,6 +110,8 @@ if __name__ == "__main__":
             key_or_val(counters, f"cpu.interrupts", f"{cpus.interrupts}", first)
             key_or_val(counters, f"cpu.soft_interrupts", f"{cpus.soft_interrupts}", first)
             key_or_val(counters, f"cpu.syscalls", f"{cpus.syscalls}", first)
+
+            key_or_val(counters, "mspt", f"{get_mspt()}", first)
 
             fout.write("\t".join(counters))
             fout.write(os.linesep)
