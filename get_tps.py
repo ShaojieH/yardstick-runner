@@ -5,6 +5,22 @@ import re
 import os
 from time import sleep, time
 
+def process_message(message: str):
+    result = ''
+    i= 0
+    while i < len(message):
+        if message[i] == '§':
+            i += 2
+        else:
+            result += message[i]
+            i += 1
+    return result
+
+def get_tps_from_message(message: str):
+    numbers = re.findall(r'\b\d+\.*\d*\b', message)
+    mspt = numbers[3]
+    return mspt
+
 def main():
     # Parse arguments
     parser = argparse.ArgumentParser()
@@ -41,8 +57,10 @@ def main():
                 # file.write(f"{time() * 1000}\t{tps}")
                 # file.write(os.linesep)
                 # file.flush()
-                response = mcrcon.command(sock, "tps")
-                file.write(f"{time() * 1000}\t{response}")
+                response = mcrcon.command(sock, "mspt")
+                cleaned_response = process_message(response)
+                mspt = get_tps_from_message(cleaned_response)
+                file.write(f"{time() * 1000}\t{mspt}")
                 file.write(os.linesep)
                 file.flush()
                 sleep(1)

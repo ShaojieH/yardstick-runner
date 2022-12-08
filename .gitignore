@@ -1,4 +1,5 @@
 yardstick-metrics.log
 tps.txt
-tmp_config.tmp_config
+tmp_config.conf
 yardstick.jar
+__pycache__/
