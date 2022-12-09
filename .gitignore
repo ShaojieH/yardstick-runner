@@ -1,4 +1,4 @@
-yardstick-metrics.log
+./yardstick-metrics.log
 tps.txt
 tmp_config.conf
 yardstick.jar
