@@ -12,6 +12,8 @@ rcon_host = "localhost"
 rcon_port = 25575
 rcon_password = "1p2o3i4u"
 
+CAPTURE_MSPT = False
+
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.connect((rcon_host, rcon_port))
 
@@ -111,7 +113,9 @@ if __name__ == "__main__":
             key_or_val(counters, f"cpu.soft_interrupts", f"{cpus.soft_interrupts}", first)
             key_or_val(counters, f"cpu.syscalls", f"{cpus.syscalls}", first)
 
-            key_or_val(counters, "mspt", f"{get_mspt()}", first)
+
+            if CAPTURE_MSPT:
+                key_or_val(counters, "mspt", f"{get_mspt()}", first)
 
             fout.write("\t".join(counters))
             fout.write(os.linesep)
