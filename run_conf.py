@@ -6,7 +6,7 @@ import os
 from time import sleep
 
 
-game_address = "34.95.7.79"
+game_address = "34.152.28.197"
 game_port = "25565"
 
 
@@ -15,7 +15,7 @@ def run_tmp_config(conf):
     with open(tmp_config, "w") as fd:
         fd.write(HOCONConverter.to_hocon(conf))
 
-    subprocess.run([f"java -Dconfig.file={tmp_config} -Xms16G -Xmx16G -jar yardstick.jar --address {game_address}:{game_port} --nodeID 0"], shell=True)
+    subprocess.run([f"java -Dconfig.file={tmp_config} -Xms64G -Xmx64G -jar yardstick.jar --address {game_address}:{game_port} --nodeID 0"], shell=True)
     
     os.remove(tmp_config)
 
