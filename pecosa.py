@@ -17,7 +17,7 @@ rcon_host = "localhost"
 rcon_port = 25575
 rcon_password = "1p2o3i4u"
 
-CAPTURE_TPS = False
+CAPTURE_TPS = True
 CAPTURE_TPS_WITH_DEBUG = False
 
 server_version = 'spigot_1.12.2'
@@ -171,7 +171,8 @@ if __name__ == "__main__":
                     mspt = get_mspt()
                     tps = min(20, 1000 / mspt)
                     print(mspt, tps)
-                    key_or_val(counters, "mspt", f"{tps}", first)
+                    key_or_val(counters, "mspt", f"{mspt}", first)
+                    key_or_val(counters, "tps", f"{tps}", first)
 
             fout.write("\t".join(counters))
             fout.write(os.linesep)
